@@ -11,7 +11,8 @@
 // Imports
 // ============================================================================
 
-import { Action, ActionOptionsType } from "kist";
+import type { ActionOptionsType } from "kist";
+import { Action } from "kist";
 import path from "path";
 import ts from "typescript";
 
@@ -138,6 +139,15 @@ export class TypeScriptCompilerAction extends Action {
                 .getPreEmitDiagnostics(program)
                 .concat(emitResult.diagnostics);
             if (allDiagnostics.length > 0) {
+                const diagnosticMessages = allDiagnostics
+                    .map((diagnostic) =>
+                        ts.flattenDiagnosticMessageText(
+                            diagnostic.messageText,
+                            "\n",
+                        ),
+                    )
+                    .join("\n");
+
                 allDiagnostics.forEach((diagnostic) => {
                     const message = ts.flattenDiagnosticMessageText(
                         diagnostic.messageText,
@@ -145,8 +155,9 @@ export class TypeScriptCompilerAction extends Action {
                     );
                     this.logError(`TypeScript Error: ${message}`);
                 });
+
                 throw new Error(
-                    "TypeScript compilation failed due to errors.",
+                    `TypeScript compilation failed: ${diagnosticMessages}`,
                 );
             }
 

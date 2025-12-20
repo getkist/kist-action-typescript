@@ -14,9 +14,21 @@
 // Import
 // ============================================================================
 
+import { jest } from "@jest/globals";
 import * as fs from "fs/promises";
 import * as path from "path";
 import { TypeScriptCompilerAction } from "./TypeScriptCompilerAction";
+
+// Mock kist to avoid pulling in its ESM dependencies during tests
+jest.mock("kist", () => {
+    class MockAction {
+        protected logger = console;
+        protected logInfo(): void {}
+        protected logError(): void {}
+    }
+
+    return { Action: MockAction };
+});
 
 // ============================================================================
 // Tests
@@ -66,7 +78,10 @@ describe("TypeScriptCompilerAction", () => {
                 JSON.stringify({
                     compilerOptions: {
                         target: "ES2020",
-                        module: "ESNext",
+                        module: "NodeNext",
+                        moduleResolution: "nodenext",
+                        skipLibCheck: true,
+                        types: ["node"],
                         outDir: "./dist",
                     },
                     include: ["src/**/*"],
@@ -102,6 +117,10 @@ describe("TypeScriptCompilerAction", () => {
                 JSON.stringify({
                     compilerOptions: {
                         target: "ES2020",
+                        module: "NodeNext",
+                        moduleResolution: "nodenext",
+                        skipLibCheck: true,
+                        types: ["node"],
                         outDir: "./dist",
                     },
                     include: ["src/**/*"],

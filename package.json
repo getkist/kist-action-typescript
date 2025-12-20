@@ -1,6 +1,6 @@
 {
   "name": "@kist/action-typescript",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "TypeScript compilation actions for kist build tool",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -57,7 +57,7 @@
     "@typescript-eslint/parser": "8.50.0",
     "eslint": "9.39.2",
     "jest": "30.2.0",
-    "kist": "^0.1.45",
+    "kist": "^0.1.57",
     "prettier": "^3.0.0",
     "ts-jest": "^29.1.0"
   },

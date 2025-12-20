@@ -35,9 +35,9 @@ const plugin: ActionPlugin = {
     author: "kist",
     repository: "https://github.com/getkist/action-typescript",
     keywords: ["kist", "kist-action", "typescript", "compiler", "tsc"],
-    actions: {
+    registerActions: () => ({
         TypeScriptCompilerAction,
-    },
+    }),
 };
 
 export default plugin;
