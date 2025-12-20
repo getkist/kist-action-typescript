@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Tests
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [18.x, 20.x, 21.x]
+        node-version: [20.x, 22.x]
 
     steps:
       - name: Checkout code
