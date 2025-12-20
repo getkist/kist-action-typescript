@@ -195,7 +195,7 @@ MIT © kist
 
 ## Links
 
-- [GitHub Repository](https://github.com/getkist/action-typescript)
+- [GitHub Repository](https://github.com/getkist/kist-action-typescript)
 - [npm Package](https://www.npmjs.com/package/@getkist/action-typescript)
 - [kist Build Tool](https://github.com/getkist/kist)
-- [Issue Tracker](https://github.com/getkist/action-typescript/issues)
+- [Issue Tracker](https://github.com/getkist/kist-action-typescript/issues)

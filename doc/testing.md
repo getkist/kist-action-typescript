@@ -327,4 +327,4 @@ npm test -- --maxWorkers=1
 
 ## Questions or Issues?
 
-See [SUPPORT.md](../SUPPORT.md) or open an [issue](https://github.com/getkist/action-jinja/issues).
+See [SUPPORT.md](../SUPPORT.md) or open an [issue](https://github.com/getkist/kist-action-jinja/issues).

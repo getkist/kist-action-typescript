@@ -33,7 +33,7 @@ const plugin: ActionPlugin = {
     version: "1.0.0",
     description: "TypeScript compilation actions for kist",
     author: "kist",
-    repository: "https://github.com/getkist/action-typescript",
+    repository: "https://github.com/getkist/kist-action-typescript",
     keywords: ["kist", "kist-action", "typescript", "compiler", "tsc"],
     registerActions: () => ({
         TypeScriptCompilerAction,

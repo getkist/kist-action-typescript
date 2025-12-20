@@ -30,5 +30,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test coverage
 - CI/CD workflows
 
-[Unreleased]: https://github.com/getkist/action-typescript/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/getkist/action-typescript/releases/tag/v1.0.0
+[Unreleased]: https://github.com/getkist/kist-action-typescript/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/getkist/kist-action-typescript/releases/tag/v1.0.0

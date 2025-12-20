@@ -17,12 +17,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/getkist/action-typescript.git"
+    "url": "git+https://github.com/getkist/kist-action-typescript.git"
   },
   "bugs": {
-    "url": "https://github.com/getkist/action-typescript/issues"
+    "url": "https://github.com/getkist/kist-action-typescript/issues"
   },
-  "homepage": "https://github.com/getkist/action-typescript#readme",
+  "homepage": "https://github.com/getkist/kist-action-typescript#readme",
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
