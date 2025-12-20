@@ -96,10 +96,7 @@ describe("TemplateRenderAction Integration Tests", () => {
         await action.execute({
             templatePath,
             outputPath,
-            contextFiles: [
-                path.join(dataDir, "config.yml"),
-                extraConfigPath,
-            ],
+            contextFiles: [path.join(dataDir, "config.yml"), extraConfigPath],
         });
 
         const content = await fs.readFile(outputPath, "utf8");
@@ -113,11 +110,7 @@ describe("TemplateRenderAction Integration Tests", () => {
         const outputPath = path.join(outputDir, "escaped.html");
         const templatePath = path.join(tmpDir, "escape.njk");
 
-        await fs.writeFile(
-            templatePath,
-            "<p>{{ content }}</p>",
-            "utf8",
-        );
+        await fs.writeFile(templatePath, "<p>{{ content }}</p>", "utf8");
 
         await action.execute({
             templatePath,
