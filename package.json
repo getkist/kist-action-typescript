@@ -1,6 +1,6 @@
 {
   "name": "@kist/action-typescript",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TypeScript compilation actions for kist build tool",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
