@@ -1,12 +1,34 @@
 /**
- * Performance benchmarks for TemplateRenderAction
+ * @module benchmark
+ * @description Performance benchmarks for TypeScript compiler actions
+ *
+ * This module measures compilation performance across various scenarios:
+ * - Simple template rendering
+ * - Template rendering with context variables
+ * - Templates with loops of varying sizes
+ * - Template inheritance and includes
+ * - Large context objects
+ *
  * Run with: npm run benchmark
  */
 
-import { TemplateRenderAction } from "../actions/TemplateRenderAction/TemplateRenderAction";
 import fs from "fs/promises";
 import path from "path";
+import { TemplateRenderAction } from "../actions/TemplateRenderAction/TemplateRenderAction";
 
+/**
+ * Result data structure for a single benchmark run.
+ *
+ * @interface BenchmarkResult
+ *
+ * @property {string} name - Name of the benchmark test
+ * @property {number} iterations - Number of times the test was executed
+ * @property {number} totalTime - Total execution time in milliseconds
+ * @property {number} avgTime - Average execution time per iteration in milliseconds
+ * @property {number} minTime - Minimum execution time in milliseconds
+ * @property {number} maxTime - Maximum execution time in milliseconds
+ * @property {number} itemsPerSec - Throughput (operations per second)
+ */
 interface BenchmarkResult {
     name: string;
     iterations: number;
@@ -17,10 +39,25 @@ interface BenchmarkResult {
     itemsPerSec: number;
 }
 
+/** @type {BenchmarkResult[]} Storage for all benchmark results */
 const results: BenchmarkResult[] = [];
+
+/** @type {string} Temporary directory for benchmark fixtures and output files */
 const tmpDir = path.join(__dirname, "__benchmark_fixtures__");
 
-async function setupFixtures() {
+/**
+ * Sets up test fixtures for benchmarks.
+ *
+ * Creates various template files including:
+ * - Simple templates with minimal content
+ * - Complex templates with loops and conditionals
+ * - Template inheritance hierarchies with multiple levels
+ *
+ * @async
+ * @returns {Promise<void>}
+ * @throws {Error} If fixture creation fails
+ */
+async function setupFixtures(): Promise<void> {
     await fs.rm(tmpDir, { recursive: true, force: true });
     await fs.mkdir(tmpDir, { recursive: true });
 
@@ -80,7 +117,36 @@ async function setupFixtures() {
     );
 }
 
-async function benchmark(name: string, fn: () => Promise<void>, iterations: number = 100) {
+async function benchmark(
+    name: string,
+    fn: () => Promise<void>,
+    iterations: number = 100,
+): Promise<BenchmarkResult> {
+    /**
+     * Executes a benchmark test and records performance metrics.
+     *
+     * Runs the provided function multiple times and collects timing data, calculating:
+     * - Average execution time
+     * - Min/max execution times
+     * - Total time across all iterations
+     * - Throughput (operations per second)
+     *
+     * @async
+     * @param {string} name - Display name for this benchmark
+     * @param {() => Promise<void>} fn - Async function to benchmark
+     * @param {number} [iterations=100] - Number of times to execute the function
+     * @returns {Promise<BenchmarkResult>} Performance metrics for this benchmark
+     *
+     * @example
+     * const result = await benchmark(
+     *   'Template rendering',
+     *   async () => {
+     *     await action.execute({ templatePath: 'test.njk', outputPath: 'out.html' });
+     *   },
+     *   50
+     * );
+     * console.log(`Average: ${result.avgTime}ms`);
+     */
     const times: number[] = [];
 
     for (let i = 0; i < iterations; i++) {
@@ -109,7 +175,26 @@ async function benchmark(name: string, fn: () => Promise<void>, iterations: numb
     return result;
 }
 
-async function runBenchmarks() {
+async function runBenchmarks(): Promise<void> {
+    /**
+     * Executes all benchmark suites and displays results.
+     *
+     * This function:
+     * 1. Creates fixture templates
+     * 2. Runs multiple benchmark scenarios
+     * 3. Collects performance metrics
+     * 4. Displays results in a formatted table
+     * 5. Calculates overall statistics
+     * 6. Cleans up temporary files
+     *
+     * @async
+     * @returns {Promise<void>}
+     * @throws {Error} If benchmarks fail to execute
+     *
+     * @example
+     * await runBenchmarks();
+     * // Outputs formatted benchmark results to console
+     */
     console.log("🚀 Starting TemplateRenderAction Performance Benchmarks\n");
 
     await setupFixtures();
@@ -120,7 +205,10 @@ async function runBenchmarks() {
     await benchmark(
         "Simple template (no context)",
         async () => {
-            const output = path.join(tmpDir, `simple-${Date.now()}-${Math.random()}.html`);
+            const output = path.join(
+                tmpDir,
+                `simple-${Date.now()}-${Math.random()}.html`,
+            );
             await action.execute({
                 templatePath: path.join(tmpDir, "simple.njk"),
                 outputPath: output,
@@ -135,7 +223,10 @@ async function runBenchmarks() {
     await benchmark(
         "Template with context",
         async () => {
-            const output = path.join(tmpDir, `with-ctx-${Date.now()}-${Math.random()}.html`);
+            const output = path.join(
+                tmpDir,
+                `with-ctx-${Date.now()}-${Math.random()}.html`,
+            );
             await action.execute({
                 templatePath: path.join(tmpDir, "simple.njk"),
                 outputPath: output,
@@ -156,7 +247,10 @@ async function runBenchmarks() {
         await benchmark(
             `Loops with ${size} items`,
             async () => {
-                const output = path.join(tmpDir, `loops-${Date.now()}-${Math.random()}.html`);
+                const output = path.join(
+                    tmpDir,
+                    `loops-${Date.now()}-${Math.random()}.html`,
+                );
                 const items = Array.from({ length: size }, (_, i) => ({
                     title: `Item ${i + 1}`,
                     description: `Description for item ${i + 1}`,
@@ -179,7 +273,10 @@ async function runBenchmarks() {
     await benchmark(
         "Template inheritance",
         async () => {
-            const output = path.join(tmpDir, `inherit-${Date.now()}-${Math.random()}.html`);
+            const output = path.join(
+                tmpDir,
+                `inherit-${Date.now()}-${Math.random()}.html`,
+            );
             await action.execute({
                 templatePath: path.join(tmpDir, "nested", "page.njk"),
                 outputPath: output,
@@ -217,7 +314,10 @@ async function runBenchmarks() {
     await benchmark(
         "Large context object",
         async () => {
-            const output = path.join(tmpDir, `large-ctx-${Date.now()}-${Math.random()}.html`);
+            const output = path.join(
+                tmpDir,
+                `large-ctx-${Date.now()}-${Math.random()}.html`,
+            );
             await action.execute({
                 templatePath: path.join(tmpDir, "simple.njk"),
                 outputPath: output,
@@ -230,11 +330,15 @@ async function runBenchmarks() {
 
     // Print results
     console.log("\n\n📈 Benchmark Results Summary\n");
-    console.log("┌─────────────────────────────────────┬──────────┬──────────┬──────────┬──────────┬──────────────┐");
+    console.log(
+        "┌─────────────────────────────────────┬──────────┬──────────┬──────────┬──────────┬──────────────┐",
+    );
     console.log(
         "│ Benchmark                           │ Avg (ms) │ Min (ms) │ Max (ms) │ Total    │ Items/sec    │",
     );
-    console.log("├─────────────────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────────┤");
+    console.log(
+        "├─────────────────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────────┤",
+    );
 
     for (const result of results) {
         const name = result.name.padEnd(35);
@@ -244,19 +348,28 @@ async function runBenchmarks() {
         const total = `${result.totalTime}ms`.padStart(8);
         const itemsPerSec = result.itemsPerSec.toString().padStart(12);
 
-        console.log(`│ ${name} │ ${avg} │ ${min} │ ${max} │ ${total} │ ${itemsPerSec} │`);
+        console.log(
+            `│ ${name} │ ${avg} │ ${min} │ ${max} │ ${total} │ ${itemsPerSec} │`,
+        );
     }
 
-    console.log("└─────────────────────────────────────┴──────────┴──────────┴──────────┴──────────┴──────────────┘");
+    console.log(
+        "└─────────────────────────────────────┴──────────┴──────────┴──────────┴──────────┴──────────────┘",
+    );
 
     // Calculate averages
-    const avgTime = results.reduce((sum, r) => sum + r.avgTime, 0) / results.length;
+    const avgTime =
+        results.reduce((sum, r) => sum + r.avgTime, 0) / results.length;
     const totalTime = results.reduce((sum, r) => sum + r.totalTime, 0);
 
     console.log(`\n📊 Overall Statistics:`);
-    console.log(`   • Average render time: ${Math.round(avgTime * 100) / 100}ms`);
+    console.log(
+        `   • Average render time: ${Math.round(avgTime * 100) / 100}ms`,
+    );
     console.log(`   • Total benchmark time: ${totalTime}ms`);
-    console.log(`   • Total iterations: ${results.reduce((sum, r) => sum + r.iterations, 0)}`);
+    console.log(
+        `   • Total iterations: ${results.reduce((sum, r) => sum + r.iterations, 0)}`,
+    );
 
     // Cleanup
     await fs.rm(tmpDir, { recursive: true, force: true });
@@ -267,4 +380,10 @@ if (require.main === module) {
     runBenchmarks().catch(console.error);
 }
 
-export { runBenchmarks, BenchmarkResult };
+/**
+ * Module exports
+ *
+ * @exports runBenchmarks - Main benchmark execution function
+ * @exports BenchmarkResult - Result data structure type
+ */
+export { BenchmarkResult, runBenchmarks };

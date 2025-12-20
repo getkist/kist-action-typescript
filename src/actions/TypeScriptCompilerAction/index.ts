@@ -1,3 +1,8 @@
+/**
+ * @module TypeScriptCompilerAction
+ * @description Exports the TypeScript compiler action and its configuration types
+ */
+
 // ============================================================================
 // Export
 // ============================================================================
