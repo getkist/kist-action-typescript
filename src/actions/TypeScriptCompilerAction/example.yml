@@ -1,0 +1,47 @@
+# Example configuration for TypeScriptCompilerAction
+# Compiles TypeScript files to JavaScript
+
+pipeline:
+  stages:
+    # Basic TypeScript compilation
+    - name: compile-typescript
+      steps:
+        - name: compile-ts
+          action: TypeScriptCompilerAction
+          options:
+            tsconfigPath: ./tsconfig.json
+
+    # Compile specific files
+    - name: compile-specific
+      steps:
+        - name: compile-sources
+          action: TypeScriptCompilerAction
+          options:
+            tsconfigPath: ./tsconfig.json
+            filePaths:
+              - src/index.ts
+              - src/utils.ts
+            outputDir: ./dist
+
+    # Custom compiler options
+    - name: compile-custom
+      steps:
+        - name: compile-esm
+          action: TypeScriptCompilerAction
+          options:
+            tsconfigPath: ./tsconfig.json
+            outputDir: ./dist/esm
+            compilerOptions:
+              target: ES2020
+              module: ESNext
+              declaration: true
+
+        - name: compile-cjs
+          action: TypeScriptCompilerAction
+          options:
+            tsconfigPath: ./tsconfig.json
+            outputDir: ./dist/cjs
+            compilerOptions:
+              target: ES2020
+              module: CommonJS
+              declaration: false
