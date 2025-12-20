@@ -1,5 +1,5 @@
 {
-  "displayName": "@kist/action-jinja",
+  "displayName": "@getkist/action-typescript",
   "out": "docs/api",
   "readme": "README.md",
   "entryPoints": ["src/index.ts"],

@@ -3,24 +3,27 @@
 ## Rendering Performance
 
 ### Context Loading
+
 - **YAML parsing:** ~10-50ms per file depending on size
 - **JSON parsing:** ~5-20ms per file
 - **Recommendation:** Pre-parse and cache context files if rendering multiple templates with same data
 
 ```yaml
 options:
-  contextFiles:
-    - ./data/shared.yml  # Parsed once per execute
-  context:
-    page: "home"
+    contextFiles:
+        - ./data/shared.yml # Parsed once per execute
+    context:
+        page: "home"
 ```
 
 ### Template Compilation
+
 - **First render:** ~20-50ms (includes compilation)
 - **Subsequent renders:** ~5-10ms (cached)
 - **Recommendation:** Reuse action instance for multiple templates
 
 ### Large Templates
+
 - **Optimal size:** <100KB per template
 - **Scaling:** Fragment into includes/extends for maintainability
 - **Memory:** ~2-5MB per template in memory during rendering
@@ -28,7 +31,9 @@ options:
 ## Optimization Tips
 
 ### 1. Use Template Inheritance
+
 Instead of duplicating layout:
+
 ```nunjucks
 {# layout.njk #}
 <!DOCTYPE html>
@@ -42,6 +47,7 @@ Instead of duplicating layout:
 ```
 
 ### 2. Minimize Context Size
+
 ```yaml
 # ✅ Good: Only include needed data
 context:
@@ -55,6 +61,7 @@ context:
 ```
 
 ### 3. Use Filters Wisely
+
 ```nunjucks
 {# ✅ Filter at template time #}
 {% for item in items | sort %}
@@ -64,22 +71,23 @@ context:
 ```
 
 ### 4. Enable Block Trimming
+
 ```yaml
 options:
-  trimBlocks: true      # Removes newlines after blocks
-  lstripBlocks: true    # Removes leading whitespace
+    trimBlocks: true # Removes newlines after blocks
+    lstripBlocks: true # Removes leading whitespace
 ```
 
 Result: Smaller output files, faster I/O.
 
 ## Benchmarks
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| Parse YAML (5KB) | 10ms | Varies with complexity |
-| Compile template | 20ms | First time only |
-| Render template | 5-10ms | Cached compilation |
-| Write file (10KB) | 2ms | File I/O |
+| Operation         | Time   | Notes                  |
+| ----------------- | ------ | ---------------------- |
+| Parse YAML (5KB)  | 10ms   | Varies with complexity |
+| Compile template  | 20ms   | First time only        |
+| Render template   | 5-10ms | Cached compilation     |
+| Write file (10KB) | 2ms    | File I/O               |
 
 ## Best Practices
 
@@ -94,15 +102,17 @@ Result: Smaller output files, faster I/O.
 Enable logging to measure performance:
 
 ```typescript
-import { TemplateRenderAction } from '@kist/action-jinja';
+import { TemplateRenderAction } from "@getkist/action-jinja";
 
 const action = new TemplateRenderAction();
 const start = Date.now();
 
 await action.execute({
-  templatePath: './template.njk',
-  outputPath: './output.html',
-  context: { /* ... */ }
+    templatePath: "./template.njk",
+    outputPath: "./output.html",
+    context: {
+        /* ... */
+    },
 });
 
 console.log(`Rendered in ${Date.now() - start}ms`);
@@ -111,6 +121,7 @@ console.log(`Rendered in ${Date.now() - start}ms`);
 ## Scaling
 
 For production pipelines:
+
 - Render templates in parallel (separate steps)
 - Use worker pools for batch operations
 - Implement caching layer for static content

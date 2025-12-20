@@ -1,8 +1,8 @@
-# @kist/action-typescript
+# @getkist/action-typescript
 
 TypeScript compilation actions for [kist](https://github.com/getkist/kist) build tool.
 
-[![npm version](https://img.shields.io/npm/v/@kist/action-typescript.svg)](https://www.npmjs.com/package/@kist/action-typescript)
+[![npm version](https://img.shields.io/npm/v/@getkist/action-typescript.svg)](https://www.npmjs.com/package/@getkist/action-typescript)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
@@ -16,7 +16,7 @@ TypeScript compilation actions for [kist](https://github.com/getkist/kist) build
 ## Installation
 
 ```bash
-npm install --save-dev @kist/action-typescript
+npm install --save-dev @getkist/action-typescript
 ```
 
 ## Usage
@@ -154,7 +154,7 @@ pipeline:
 ## TypeScript Types
 
 ```typescript
-import { TypeScriptCompilerAction } from "@kist/action-typescript";
+import { TypeScriptCompilerAction } from "@getkist/action-typescript";
 
 const action = new TypeScriptCompilerAction();
 ```
@@ -196,6 +196,6 @@ MIT © kist
 ## Links
 
 - [GitHub Repository](https://github.com/getkist/action-typescript)
-- [npm Package](https://www.npmjs.com/package/@kist/action-typescript)
+- [npm Package](https://www.npmjs.com/package/@getkist/action-typescript)
 - [kist Build Tool](https://github.com/getkist/kist)
 - [Issue Tracker](https://github.com/getkist/action-typescript/issues)

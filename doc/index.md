@@ -1,8 +1,8 @@
-# @kist/action-typescript Documentation
+# @getkist/action-typescript Documentation
 
 TypeScript compilation action for kist.
 
-- Package: @kist/action-typescript
+- Package: @getkist/action-typescript
 - Action: TypeScriptCompilerAction
 
 ## Overview
@@ -12,7 +12,7 @@ Compiles TypeScript sources using a provided `tsconfig.json`, supports extra com
 ## Installation
 
 ```
-npm install --save-dev @kist/action-typescript
+npm install --save-dev @getkist/action-typescript
 ```
 
 ## Quick Start

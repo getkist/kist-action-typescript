@@ -17,7 +17,7 @@ pipeline:
 ## Programmatic
 
 ```
-import { TypeScriptCompilerAction } from "@kist/action-typescript";
+import { TypeScriptCompilerAction } from "@getkist/action-typescript";
 
 await new TypeScriptCompilerAction().execute({
   tsconfigPath: "./tsconfig.json",

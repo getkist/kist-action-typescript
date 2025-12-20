@@ -1,4 +1,4 @@
-# Contributing to @kist/action-typescript
+# Contributing to @getkist/action-typescript
 
 Thank you for your interest in contributing!
 

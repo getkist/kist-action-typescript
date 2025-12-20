@@ -1,5 +1,5 @@
 /**
- * @module @kist/action-typescript
+ * @module @getkist/action-typescript
  * @description TypeScript compilation plugin for the Kist build tool
  *
  * This module provides TypeScript compilation capabilities as a Kist action plugin.

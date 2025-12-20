@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial release of @kist/action-typescript
+- Initial release of @getkist/action-typescript
 - TypeScriptCompilerAction with full compiler integration
 - Custom compiler options support
 - Specific file compilation
