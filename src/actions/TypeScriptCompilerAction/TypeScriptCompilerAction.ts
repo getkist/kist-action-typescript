@@ -39,7 +39,7 @@ export interface TypeScriptCompilerActionOptions extends ActionOptionsType {
     tsconfigPath?: string;
     filePaths?: string[];
     outputDir?: string;
-    compilerOptions?: Record<string, any>;
+    compilerOptions?: ts.CompilerOptions;
 }
 
 // ============================================================================
@@ -162,9 +162,11 @@ export class TypeScriptCompilerAction extends Action {
             }
 
             this.logInfo("TypeScript compilation completed successfully.");
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const message =
+                error instanceof Error ? error.message : String(error);
             this.logError("Error during TypeScript compilation:", error);
-            throw new Error(`TypeScript compilation failed: ${error.message}`);
+            throw new Error(`TypeScript compilation failed: ${message}`);
         }
     }
 

@@ -7,7 +7,6 @@ export default {
     "^kist$": "<rootDir>/node_modules/kist/js",
     "^kist/(.*)$": "<rootDir>/node_modules/kist/js/$1",
   },
-  testPathIgnorePatterns: ["<rootDir>/src/tests/integration.test.ts"],
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",
