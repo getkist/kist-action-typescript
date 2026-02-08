@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: kist-action-typescript
-version: 0.0.5
+version: 0.0.6
 date-released: 2024-12-22
 url: "https://github.com/getkist/kist-action-typescript"
 message: >-
