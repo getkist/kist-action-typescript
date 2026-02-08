@@ -48,18 +48,18 @@
     "kist": "^0.1.0"
   },
   "dependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@types/jest": "30.0.0",
-    "@types/node": "25.0.3",
-    "@typescript-eslint/eslint-plugin": "8.50.0",
-    "@typescript-eslint/parser": "8.50.0",
-    "eslint": "9.39.2",
+    "@types/node": "25.2.2",
+    "@typescript-eslint/eslint-plugin": "8.54.0",
+    "@typescript-eslint/parser": "8.54.0",
+    "eslint": "10.0.0",
     "jest": "30.2.0",
-    "kist": "^0.1.57",
-    "prettier": "^3.0.0",
-    "ts-jest": "^29.1.0"
+    "kist": "^0.1.58",
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.6"
   },
   "files": [
     "dist",

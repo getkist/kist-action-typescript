@@ -2,6 +2,7 @@ export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",
   extensionsToTreatAsEsm: [".ts"],
+  roots: ["<rootDir>/tst"],
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
     "^kist$": "<rootDir>/node_modules/kist/js",
@@ -16,21 +17,14 @@ export default {
     ],
   },
   testMatch: [
-    "**/__tests__/**/*.ts",
     "**/?(*.)+(spec|test|integration|e2e).ts",
   ],
   collectCoverageFrom: [
     "src/**/*.ts",
-    "!src/**/*.test.ts",
-    "!src/**/*.integration.ts",
-    "!src/**/*.e2e.ts",
-    "!src/**/*.benchmark.ts",
     "!src/**/*.d.ts",
-    "!src/tests/**/*",
   ],
   coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov", "json", "html", "text-summary"],
-  // Enforce coverage thresholds - CI/CD will fail if not met
   coverageThreshold: {
     global: {
       branches: 70,

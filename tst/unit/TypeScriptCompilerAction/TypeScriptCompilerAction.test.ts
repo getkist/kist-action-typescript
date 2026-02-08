@@ -17,7 +17,7 @@
 import { jest } from "@jest/globals";
 import * as fs from "fs/promises";
 import * as path from "path";
-import { TypeScriptCompilerAction } from "./TypeScriptCompilerAction";
+import { TypeScriptCompilerAction } from "../../../src/actions/TypeScriptCompilerAction/TypeScriptCompilerAction";
 
 // Mock kist to avoid pulling in its ESM dependencies during tests
 jest.mock("kist", () => {
