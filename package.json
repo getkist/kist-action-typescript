@@ -1,8 +1,8 @@
 {
   "name": "@getkist/action-typescript",
-  "version": "0.0.11",
+  "version": "0.0.13",
   "description": "TypeScript compilation actions for kist build tool",
-  "main": "dist/index.js",
+  "main": "./dist/index.cjs",
   "types": "dist/index.d.ts",
   "type": "module",
   "keywords": [
@@ -28,8 +28,8 @@
     "npm": ">=9.0.0"
   },
   "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch",
+    "build": "tsup",
+    "build:watch": "tsup --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -45,7 +45,7 @@
     "prepublishOnly": "npm run clean && npm run build && npm test"
   },
   "peerDependencies": {
-    "kist": "^0.1.0"
+    "kist": "^0.1.64"
   },
   "dependencies": {
     "typescript": "^5.9.3"
@@ -57,13 +57,29 @@
     "@typescript-eslint/parser": "8.54.0",
     "eslint": "10.0.0",
     "jest": "30.2.0",
-    "kist": "^0.1.58",
+    "kist": "file:../kist",
     "prettier": "^3.8.1",
-    "ts-jest": "^29.4.6"
+    "ts-jest": "^29.4.6",
+    "tsup": "^8.5.1"
   },
   "files": [
     "dist",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false
 }

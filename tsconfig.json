@@ -3,10 +3,6 @@
         "target": "ES2022",
         "module": "ESNext",
         "moduleResolution": "bundler",
-        "paths": {
-            "kist": ["./node_modules/kist/js"],
-            "kist/*": ["./node_modules/kist/js/*"]
-        },
         "lib": ["ES2022"],
         "declaration": true,
         "declarationMap": true,
