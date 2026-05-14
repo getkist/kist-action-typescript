@@ -1,6 +1,6 @@
 {
   "name": "@getkist/action-typescript",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "TypeScript compilation actions for kist build tool",
   "main": "./dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -48,18 +48,18 @@
     "kist": "^0.1.64"
   },
   "dependencies": {
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@types/jest": "30.0.0",
-    "@types/node": "25.2.2",
-    "@typescript-eslint/eslint-plugin": "8.54.0",
-    "@typescript-eslint/parser": "8.54.0",
-    "eslint": "10.0.0",
-    "jest": "30.2.0",
+    "@types/node": "25.8.0",
+    "@typescript-eslint/eslint-plugin": "8.59.3",
+    "@typescript-eslint/parser": "8.59.3",
+    "eslint": "10.3.0",
+    "jest": "30.4.2",
     "kist": "file:../kist",
-    "prettier": "^3.8.1",
-    "ts-jest": "^29.4.6",
+    "prettier": "^3.8.3",
+    "ts-jest": "^29.4.9",
     "tsup": "^8.5.1"
   },
   "files": [

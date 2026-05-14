@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: kist-action-typescript
-version: 0.0.14
+version: 0.0.29
 date-released: 2026-04-23
 url: "https://github.com/getkist/kist-action-typescript"
 message: >-
@@ -10,6 +10,6 @@ type: software
 authors:
     - given-names: Lars Bastiaan
       family-names: van Vianen
-      email: lars@scape.agency
-      affiliation: Scape Agency
+      email: lars@scape.press
+      affiliation: Scape Press
       orcid: "https://orcid.org/0000-0002-8790-8630"
