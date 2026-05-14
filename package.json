@@ -1,6 +1,6 @@
 {
   "name": "@getkist/action-typescript",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "TypeScript compilation actions for kist build tool",
   "main": "./dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     "prepublishOnly": "npm run clean && npm run build && npm test"
   },
   "peerDependencies": {
-    "kist": "^0.1.64"
+    "kist": ">=0.1.58"
   },
   "dependencies": {
     "typescript": "^6.0.3"
