@@ -52,14 +52,14 @@
   },
   "devDependencies": {
     "@types/jest": "30.0.0",
-    "@types/node": "25.8.0",
-    "@typescript-eslint/eslint-plugin": "8.59.3",
-    "@typescript-eslint/parser": "8.59.3",
-    "eslint": "10.3.0",
+    "@types/node": "26.1.2",
+    "@typescript-eslint/eslint-plugin": "8.65.0",
+    "@typescript-eslint/parser": "8.65.0",
+    "eslint": "10.8.0",
     "jest": "30.4.2",
     "kist": "file:../kist",
-    "prettier": "^3.8.3",
-    "ts-jest": "^29.4.9",
+    "prettier": "^3.9.6",
+    "ts-jest": "^29.4.12",
     "tsup": "^8.5.1"
   },
   "files": [
