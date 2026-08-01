@@ -21,24 +21,38 @@ import ts from "typescript";
 // ============================================================================
 
 /**
- * Configuration options for the TypeScript compiler action.
+ * Configuration options for {@link TypeScriptCompilerAction}. All fields are
+ * optional; when a field is omitted, the action falls back to whatever
+ * `tsconfig.json` (or the TypeScript compiler's own defaults) would resolve.
+ * `compilerOptions`, when supplied, is merged on top of the compiler options
+ * loaded from `tsconfigPath` and takes precedence field-by-field, matching
+ * the merge performed inside {@link TypeScriptCompilerAction.execute}.
  *
  * @interface TypeScriptCompilerActionOptions
  * @extends {ActionOptionsType}
  *
- * @property {string} [tsconfigPath="tsconfig.json"] - Path to the tsconfig.json file.
- *           If not provided, defaults to "tsconfig.json" in the current directory.
- * @property {string[]} [filePaths] - Optional array of file paths to compile.
- *           If provided, overrides the files specified in tsconfig.json.
- * @property {string} [outputDir] - Optional output directory for compiled JavaScript files.
- *           Overrides the outDir specified in tsconfig.json if provided.
- * @property {Record<string, any>} [compilerOptions] - Optional additional compiler options
- *           to merge with those from tsconfig.json. Takes precedence over tsconfig options.
+ * @example
+ * ```yaml
+ * # kist.yaml
+ * steps:
+ *   - action: TypeScriptCompilerAction
+ *     options:
+ *       tsconfigPath: ./tsconfig.json
+ *       outputDir: ./dist
+ *       compilerOptions:
+ *         target: ES2020
+ *         module: ESNext
+ *         declaration: true
+ * ```
  */
 export interface TypeScriptCompilerActionOptions extends ActionOptionsType {
+    /** Path to the tsconfig.json file, resolved relative to the process's current working directory (default: `"tsconfig.json"`) */
     tsconfigPath?: string;
+    /** Explicit list of file paths to compile; when provided, this replaces the `files`/`include` resolution that would otherwise come from tsconfig.json */
     filePaths?: string[];
+    /** Output directory for compiled JavaScript; when provided, overrides the `outDir` from tsconfig.json */
     outputDir?: string;
+    /** Additional compiler options merged on top of, and taking precedence over, those loaded from tsconfig.json (default: `{}`, i.e. no overrides) */
     compilerOptions?: ts.CompilerOptions;
 }
 
@@ -47,14 +61,16 @@ export interface TypeScriptCompilerActionOptions extends ActionOptionsType {
 // ============================================================================
 
 /**
- * TypeScript Compiler Action for the Kist build system.
- *
- * This action compiles TypeScript source files to JavaScript using the TypeScript compiler.
- * It handles:
- * - Loading and parsing tsconfig.json configurations
- * - Merging custom compiler options
- * - Handling compilation diagnostics and errors
- * - Logging compilation progress and results
+ * Kist action that compiles TypeScript source files to JavaScript using the
+ * TypeScript compiler API (the `typescript` package). Loads and validates
+ * `tsconfig.json`, merges in any caller-supplied `compilerOptions` and
+ * `outputDir`/`filePaths` overrides, builds a `ts.Program` from the result,
+ * and emits JavaScript output. Any diagnostics collected before or during
+ * emit (type errors, syntax errors, etc.) are logged and cause the action to
+ * fail rather than emit partial/invalid output. Register this action under
+ * the name `"TypeScriptCompilerAction"` in a kist.yaml pipeline step; see
+ * {@link TypeScriptCompilerActionOptions} for the full set of configurable
+ * options.
  *
  * @class TypeScriptCompilerAction
  * @extends {Action}
@@ -69,7 +85,17 @@ export interface TypeScriptCompilerActionOptions extends ActionOptionsType {
  */
 export class TypeScriptCompilerAction extends Action {
     /**
-     * Executes the TypeScript compilation process.
+     * Loads `tsconfig.json`, merges it with any caller-supplied
+     * `compilerOptions` and `outputDir`, compiles the resolved file set with
+     * the TypeScript compiler, and emits the resulting JavaScript.
+     * `options.compilerOptions` takes precedence over the equivalent option
+     * loaded from `tsconfig.json`; `options.filePaths`, when provided,
+     * entirely replaces the file set that `tsconfig.json` would otherwise
+     * resolve via `files`/`include`. Every diagnostic collected before or
+     * during emit (syntax errors, type errors, etc.) is logged individually
+     * via {@link Action.logError} before the method throws, so the full set
+     * of problems is visible even though only one `Error` is ultimately
+     * raised.
      *
      * This method:
      * 1. Loads and parses the tsconfig.json file
@@ -81,7 +107,19 @@ export class TypeScriptCompilerAction extends Action {
      * @async
      * @param {TypeScriptCompilerActionOptions} options - Configuration for compilation
      * @returns {Promise<void>} Resolves when compilation is completed successfully.
-     * @throws {Error} Throws an error if compilation fails with details about the failure.
+     * @throws {Error} If `tsconfigPath` (default `"tsconfig.json"`) does not
+     * exist, cannot be read, or is not valid JSON — surfaced from
+     * {@link loadAndParseTsConfig}.
+     * @throws {Error} If the parsed `tsconfig.json` fails TypeScript's own
+     * schema validation (e.g. an unrecognized compiler option or an invalid
+     * `include`/`exclude` pattern) — also surfaced from
+     * {@link loadAndParseTsConfig}.
+     * @throws {Error} If the TypeScript compiler reports one or more
+     * pre-emit or emit diagnostics (type errors, syntax errors, etc.); the
+     * thrown error's message concatenates all diagnostic messages.
+     * In every case above, the underlying message is caught, logged via
+     * {@link Action.logError}, and rethrown as a single `Error` prefixed
+     * with `"TypeScript compilation failed: "`.
      *
      * @example
      * await action.execute({
@@ -172,6 +210,12 @@ export class TypeScriptCompilerAction extends Action {
 
     /**
      * Loads and parses a tsconfig.json file with proper error handling.
+     * Delegates to `ts.readConfigFile` for disk I/O/JSON parsing and to
+     * `ts.parseJsonConfigFileContent` for schema validation and resolution
+     * of `files`/`include`/`exclude` globs, so the returned file names and
+     * compiler options are already normalized/resolved relative to the
+     * tsconfig's own directory (not the process's current working
+     * directory).
      *
      * This method:
      * 1. Reads the tsconfig.json file from disk
@@ -183,7 +227,13 @@ export class TypeScriptCompilerAction extends Action {
      * @param {string} tsconfigPath - The absolute or relative path to the tsconfig.json file.
      * @returns {ts.ParsedCommandLine} The parsed TypeScript configuration including compiler
      *          options and file names to compile.
-     * @throws {Error} Throws an error if the file cannot be read or the JSON is invalid.
+     * @throws {Error} If the file at `tsconfigPath` does not exist, cannot
+     * be read, or its contents are not valid JSON — reported via
+     * `ts.readConfigFile`'s diagnostic.
+     * @throws {Error} If the parsed configuration object fails TypeScript's
+     * schema validation (e.g. an unknown/misspelled compiler option, or an
+     * invalid `include`/`exclude` pattern) — reported via the diagnostics
+     * array from `ts.parseJsonConfigFileContent`.
      *
      * @example
      * const config = this.loadAndParseTsConfig('./tsconfig.json');
@@ -226,7 +276,9 @@ export class TypeScriptCompilerAction extends Action {
      * Provides a human-readable description of this action.
      *
      * This method is used by the Kist build system to display information about
-     * what this action does in logs and documentation.
+     * what this action does in logs and documentation. Overrides the generic
+     * {@link Action.describe} default with a description specific to
+     * TypeScript compilation.
      *
      * @returns {string} A description of the TypeScript compilation action.
      *
