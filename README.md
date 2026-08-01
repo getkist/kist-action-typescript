@@ -171,7 +171,7 @@ interface TypeScriptCompilerActionOptions {
     tsconfigPath?: string;
     filePaths?: string[];
     outputDir?: string;
-    compilerOptions?: Record<string, any>;
+    compilerOptions?: ts.CompilerOptions;
 }
 ```
 
@@ -186,9 +186,9 @@ The action provides detailed error messages for:
 
 ## Requirements
 
-- Node.js >= 18.0.0
-- kist >= 0.1.0
-- TypeScript >= 5.0.0
+- Node.js >= 22.0.0
+- kist >= 0.1.58
+- TypeScript >= 6.0.0
 
 ## Contributing
 

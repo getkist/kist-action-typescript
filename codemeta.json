@@ -16,7 +16,7 @@
     {
       "@type": "SoftwareApplication",
       "name": "Node.js",
-      "version": ">=20.0.0"
+      "version": ">=22.0.0"
     },
     {
       "@type": "SoftwareApplication",
