@@ -1,6 +1,10 @@
 {
     "compilerOptions": {
         "target": "ES2022",
+        // TypeScript 6 errors on options it has deprecated. tsup's declaration
+        // build sets `baseUrl` internally, so the acknowledgement has to live
+        // here; every other kist plugin already carries it.
+        "ignoreDeprecations": "6.0",
         "module": "ESNext",
         "moduleResolution": "bundler",
         "lib": ["ES2022"],
