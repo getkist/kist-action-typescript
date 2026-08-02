@@ -45,7 +45,7 @@ import { TypeScriptCompilerAction } from "./actions/TypeScriptCompilerAction/ind
  */
 const plugin: ActionPlugin = {
     /** Plugin version, surfaced to kist/consumers; keep in sync with `package.json`'s `version` field. */
-    version: "0.0.31",
+    version: "0.0.32",
     /** Short, human-readable summary of what this plugin provides, shown in kist's plugin listings. */
     description: "TypeScript compilation actions for kist",
     /** Package author/maintainer, shown alongside the plugin in kist's plugin listings. */
