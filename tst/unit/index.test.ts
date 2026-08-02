@@ -8,6 +8,7 @@
 // ============================================================================
 
 import { jest } from "@jest/globals";
+import pkg from "../../package.json" with { type: "json" };
 
 // The plugin module pulls `Action` in through the action it registers, so the
 // same `kist` stub used by the action suite is required here too.
@@ -44,7 +45,7 @@ describe("package entry point", () => {
 
 describe("plugin definition", () => {
     it("should declare its metadata", () => {
-        expect(plugin.version).toBe("1.0.0");
+        expect(plugin.version).toBe(pkg.version);
         expect(plugin.description).toBe(
             "TypeScript compilation actions for kist",
         );
