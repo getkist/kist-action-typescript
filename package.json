@@ -51,6 +51,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@types/jest": "30.0.0",
     "@types/node": "26.1.2",
     "@typescript-eslint/eslint-plugin": "8.65.0",
@@ -60,7 +61,8 @@
     "kist": "file:../kist",
     "prettier": "^3.9.6",
     "ts-jest": "^29.4.12",
-    "tsup": "^8.5.1"
+    "tsup": "^8.5.1",
+    "typescript-eslint": "8.65.0"
   },
   "files": [
     "dist",

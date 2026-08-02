@@ -204,7 +204,7 @@ export class TypeScriptCompilerAction extends Action {
             const message =
                 error instanceof Error ? error.message : String(error);
             this.logError("Error during TypeScript compilation:", error);
-            throw new Error(`TypeScript compilation failed: ${message}`);
+            throw new Error(`TypeScript compilation failed: ${message}`, { cause: error });
         }
     }
 
