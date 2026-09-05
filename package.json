@@ -56,7 +56,7 @@
         "@types/node": "26.4.1",
         "@typescript-eslint/eslint-plugin": "8.65.0",
         "@typescript-eslint/parser": "8.65.0",
-        "eslint": "10.8.0",
+        "eslint": "10.9.1",
         "jest": "30.4.2",
         "kist": "^0.1.75",
         "prettier": "^3.9.6",
