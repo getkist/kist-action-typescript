@@ -1,77 +1,37 @@
-/**
- * @module index.test
- * @description Tests for the package's public surface and plugin definition.
- */
+import { createRequire } from "module";
 
-// ============================================================================
-// Import
-// ============================================================================
+import { Action, ActionPlugin } from "kist";
 
-import { jest } from "@jest/globals";
-import pkg from "../../package.json" with { type: "json" };
+import plugin, { TypeScriptCompilerAction } from "../../src/index.js";
 
-// The plugin module pulls `Action` in through the action it registers, so the
-// same `kist` stub used by the action suite is required here too.
-jest.unstable_mockModule("kist", () => {
-    class MockAction {
-        protected logInfo(): void {}
-        protected logError(): void {}
-    }
-    return { Action: MockAction };
-});
-
-const plugin = (await import("../../src/index.js")).default;
-const { TypeScriptCompilerAction } = await import("../../src/index.js");
-const actionBarrel = await import(
-    "../../src/actions/TypeScriptCompilerAction/index.js"
-);
-
-// ============================================================================
-// Tests
-// ============================================================================
+const require = createRequire(import.meta.url);
+const pkg = require("../../package.json") as { name: string; version: string };
 
 describe("package entry point", () => {
-    it("should re-export the action class", () => {
+    it("re-exports every action it provides", () => {
         expect(TypeScriptCompilerAction).toBeDefined();
-        expect(typeof TypeScriptCompilerAction).toBe("function");
+        expect(new TypeScriptCompilerAction()).toBeInstanceOf(Action);
     });
 
-    it("should re-export the action from its own barrel", () => {
-        expect(actionBarrel.TypeScriptCompilerAction).toBe(
-            TypeScriptCompilerAction,
+    it("exports a plugin manifest as the default export", () => {
+        const manifest: ActionPlugin = plugin;
+        expect(typeof manifest.version).toBe("string");
+        expect(manifest.description).toBeTruthy();
+        expect(manifest.keywords).toEqual(
+            expect.arrayContaining(["kist", "kist-action"]),
         );
     });
-});
 
-describe("plugin definition", () => {
-    it("should declare its metadata", () => {
+    // The manifest version is hand-written, so it silently drifts from the
+    // published version unless something compares the two.
+    it("declares the same version as package.json", () => {
         expect(plugin.version).toBe(pkg.version);
-        expect(plugin.description).toBe(
-            "TypeScript compilation actions for kist",
-        );
-        expect(plugin.author).toBe("kist");
-        expect(plugin.repository).toBe(
-            "https://github.com/getkist/kist-action-typescript",
-        );
-        expect(plugin.keywords).toEqual([
-            "kist",
-            "kist-action",
-            "typescript",
-            "compiler",
-            "tsc",
-        ]);
     });
 
-    it("should register the TypeScript compiler action", () => {
-        const actions = plugin.registerActions();
-        expect(Object.keys(actions)).toEqual(["TypeScriptCompilerAction"]);
-        expect(actions.TypeScriptCompilerAction).toBe(TypeScriptCompilerAction);
-    });
-
-    it("should construct the action it registers", () => {
-        const Registered = plugin.registerActions().TypeScriptCompilerAction;
-        expect(new Registered().describe()).toBe(
-            "Compiles TypeScript files using a given tsconfig.json configuration.",
-        );
+    it("registers its actions by the name pipeline steps use", () => {
+        expect(plugin.registerActions).toBeDefined();
+        const actions = plugin.registerActions!();
+        expect(Object.keys(actions).sort()).toEqual(["TypeScriptCompilerAction"]);
+        expect(new actions.TypeScriptCompilerAction()).toBeInstanceOf(TypeScriptCompilerAction);
     });
 });

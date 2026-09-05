@@ -1,87 +1,93 @@
 {
-  "name": "@getkist/action-typescript",
-  "version": "0.0.33",
-  "description": "TypeScript compilation actions for kist build tool",
-  "main": "./dist/index.cjs",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "keywords": [
-    "kist",
-    "kist-action",
-    "typescript",
-    "compiler",
-    "tsc",
-    "transpilation"
-  ],
-  "author": "kist",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/getkist/kist-action-typescript.git"
-  },
-  "bugs": {
-    "url": "https://github.com/getkist/kist-action-typescript/issues"
-  },
-  "homepage": "https://github.com/getkist/kist-action-typescript#readme",
-  "engines": {
-    "node": ">=22.0.0",
-    "npm": ">=9.0.0"
-  },
-  "scripts": {
-    "build": "tsup",
-    "build:watch": "tsup --watch",
-    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:unit": "jest --testPathPatterns=\\.test\\.ts$",
-    "test:integration": "jest --testPathPatterns=\\.integration\\.test\\.ts$",
-    "test:e2e": "jest --testPathPatterns=e2e\\.test\\.ts$",
-    "test:coverage:enforce": "jest --coverage && jest --listTests | grep -E '\\.(test|integration|e2e)\\.ts$' | wc -l && echo 'Coverage thresholds enforced'",
-    "benchmark": "npx ts-node src/tests/benchmark.ts",
-    "lint": "eslint 'src/**/*.ts'",
-    "lint:fix": "eslint 'src/**/*.ts' --fix",
-    "format": "prettier --write 'src/**/*.ts'",
-    "clean": "rm -rf dist",
-    "prepublishOnly": "npm run clean && npm run build && npm test"
-  },
-  "peerDependencies": {
-    "kist": ">=0.1.58"
-  },
-  "dependencies": {
-    "typescript": "^6.0.3"
-  },
-  "devDependencies": {
-    "@eslint/js": "10.0.1",
-    "@types/jest": "30.0.0",
-    "@types/node": "26.1.2",
-    "@typescript-eslint/eslint-plugin": "8.65.0",
-    "@typescript-eslint/parser": "8.65.0",
-    "eslint": "10.8.0",
-    "jest": "30.4.2",
-    "kist": "^0.1.75",
-    "prettier": "^3.9.6",
-    "ts-jest": "^29.4.12",
-    "tsup": "^8.5.1",
-    "typescript-eslint": "8.65.0"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "module": "./dist/index.mjs",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.cjs"
-      }
+    "name": "@getkist/action-typescript",
+    "version": "0.0.34",
+    "description": "TypeScript compilation actions for kist build tool",
+    "main": "./dist/index.cjs",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "keywords": [
+        "kist",
+        "kist-action",
+        "typescript",
+        "compiler",
+        "tsc",
+        "transpilation"
+    ],
+    "author": "kist",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/getkist/kist-action-typescript.git"
     },
-    "./package.json": "./package.json"
-  },
-  "sideEffects": false
+    "bugs": {
+        "url": "https://github.com/getkist/kist-action-typescript/issues"
+    },
+    "homepage": "https://github.com/getkist/kist-action-typescript#readme",
+    "engines": {
+        "node": ">=22.0.0",
+        "npm": ">=10.0.0"
+    },
+    "scripts": {
+        "build": "tsup",
+        "build:watch": "tsup --watch",
+        "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+        "test:watch": "NODE_OPTIONS='--experimental-vm-modules' jest --watch",
+        "test:coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
+        "test:unit": "NODE_OPTIONS='--experimental-vm-modules' jest --testPathPatterns='tst[\\/]unit[\\/]'",
+        "test:integration": "NODE_OPTIONS='--experimental-vm-modules' jest --testPathPatterns='tst[\\/]integration[\\/]'",
+        "test:e2e": "NODE_OPTIONS='--experimental-vm-modules' jest --testPathPatterns='tst[\\/]e2e[\\/]'",
+        "test:coverage:enforce": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage && NODE_OPTIONS='--experimental-vm-modules' jest --listTests | grep -E '\\.(test|integration|e2e)\\.ts$' | wc -l && echo 'Coverage thresholds enforced'",
+        "benchmark": "npx ts-node src/tests/benchmark.ts",
+        "lint": "eslint 'src/**/*.ts'",
+        "lint:fix": "eslint 'src/**/*.ts' --fix",
+        "format": "prettier --write 'src/**/*.ts'",
+        "clean": "rm -rf dist",
+        "prepublishOnly": "npm run clean && npm run build && npm test"
+    },
+    "peerDependencies": {
+        "kist": ">=0.1.58"
+    },
+    "dependencies": {
+        "typescript": "^6.0.3"
+    },
+    "devDependencies": {
+        "@eslint/js": "10.0.1",
+        "@types/jest": "30.0.0",
+        "@types/node": "26.1.2",
+        "@typescript-eslint/eslint-plugin": "8.65.0",
+        "@typescript-eslint/parser": "8.65.0",
+        "eslint": "10.8.0",
+        "jest": "30.4.2",
+        "kist": "^0.1.75",
+        "prettier": "^3.9.6",
+        "ts-jest": "^29.4.12",
+        "tsup": "^8.5.1",
+        "typescript-eslint": "8.65.0"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "module": "./dist/index.mjs",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.mjs"
+            },
+            "require": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.cjs"
+            }
+        },
+        "./package.json": "./package.json"
+    },
+    "sideEffects": false,
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/scape-foundation"
+        }
+    ]
 }
